@@ -101,9 +101,11 @@ function AppViewModel() {
 
 
   this.updateList = function() {
-    var currentValue = self.placeName();
+    var currentValue = self.placeName().toLowerCase();
+
     for(var i=0; i< self.placesList().length;i++){
-      if(!self.placesList()[i].name.includes(currentValue) && !self.placesList()[i].address.includes(currentValue)){
+      var currentElement = self.placesList()[i];
+      if(!currentElement.name.includes(currentValue) && !currentElement.address.includes(currentValue)){
         self.placesList()[i].showItem = false;
       } 
     }
