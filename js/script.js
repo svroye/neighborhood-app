@@ -70,64 +70,68 @@ var Place = function(data){
 };
 
 function AppViewModel() {
+
   var self = this;
   this.placesList = ko.observableArray();
   this.markersList = ko.observableArray();
 
   var largeInfowindow = new google.maps.InfoWindow();
   var inputField = document.getElementById('search-place-text');
+  var bounds = new google.maps.LatLngBounds();
 
   importantPlaces.forEach(function(item,number){
-   
+
     var marker = new google.maps.Marker({
       position: item.location,
       title: item.name,
       animation: google.maps.Animation.DROP,
-      id: number
+      id: number,
+      map: map
     });
 
-    self.markersList.push(marker);
+    bounds.extend(marker.position);
 
-    item.marker = marker;
-    
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
     });
 
-    self.placesList.push(new Place(item));
+    self.newItem = ko.observable({
+      name: item.name,
+      address: item.address,
+      location: item.location,
+      marker: marker,
+      showItem: true
+    });
+
+    self.placesList.push(self.newItem)
   })
 
   this.placeName = ko.observable("");
 
 
+
   this.updateList = function() {
     var currentValue = self.placeName().toLowerCase();
+    console.log(currentValue)
 
     for(var i=0; i< self.placesList().length;i++){
       var currentElement = self.placesList()[i];
-      if(!currentElement.name.includes(currentValue) && !currentElement.address.includes(currentValue)){
-        self.placesList()[i].showItem = false;
+      var currentAddress = currentElement().address;
+      var currentName = currentElement().name;
+      
+      if(!currentName.includes(currentValue) && !currentAddress.includes(currentValue)){
+        currentElement().showItem = false;
       } 
     }
   }
-
-  var bounds = new google.maps.LatLngBounds();
-  this.markersList().forEach(function(item, number){
-    item.setMap(map);
-    bounds.extend(item.position);
-  })
-  map.fitBounds(bounds);
+  
 
   this.openMarker = function(item){
     populateInfoWindow(item.marker,largeInfowindow);
   }
-
 
 }
 
 document.onerror = function() {
   alert('Problem with loading the script. Please check your connetivity and try again later.')
 }
-
-
-
