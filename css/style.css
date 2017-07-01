@@ -114,3 +114,8 @@ hr {
 #zoom-to-area {
 	width: 24%;
 }
+
+#disclaimer {
+	font-size: 50%;
+	word-break: normal;
+}
