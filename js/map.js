@@ -1,8 +1,5 @@
  var map;
 
-// Create a new blank array for all the listing markers.
-var markers = [];
-
 var NYTApiKey = "8c50570480a84e43953e42c4c556b6dd";
 
 function initMap() {
@@ -113,7 +110,7 @@ function initMap() {
               var nearStreetViewLocation = data.location.latLng;
               var heading = google.maps.geometry.spherical.computeHeading(
                 nearStreetViewLocation, marker.position);
-              content += '<div class="infowindow-title">' + marker.title + '</div><div id="pano"></div>';
+              currentContent += '<div class="infowindow-title">' + marker.title + '</div><div id="pano"></div>';
               panoramaOptions = {
                 position: nearStreetViewLocation,
                 pov: {
@@ -121,20 +118,22 @@ function initMap() {
                   pitch: 30
                 }
               };
-              infowindow.setContent(content);
+              infowindow.setContent(currentContent + content);
               panorama = new google.maps.StreetViewPanorama(
                 document.getElementById('pano'), panoramaOptions);
             } else {
-              content +='<div class="infowindow-title">' + marker.title + '</div>' +
-                '<div>No Street View Found</div>'
-              infowindow.setContent(content);
+              currentContent +='<div class="infowindow-title">' + marker.title + '</div>' +
+              '<div>No Street View Found</div>'
+              infowindow.setContent(currentContent + content);
             }
 
-            var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-            var queryData = {
-              'q' : marker.title,
-              'api-key' : NYTApiKey
-            };
+          }
+
+          var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+          var queryData = {
+            'q' : marker.title,
+            'api-key' : NYTApiKey
+          };
 
             //get response from NYT
             $.getJSON( url, queryData, function(data) {
@@ -143,7 +142,6 @@ function initMap() {
               console.log(responseDoc)
               //loop through the articles
               if(responseDoc.length !== 0){
-                console.log("uuuuuuuuuuuuuuuuuu");
                 content += "<div class='NYT-title'>New York Times articles about " + marker.title.toUpperCase() + ': </div><ul>';
                 responseDoc.forEach(function(currentValue){
                   //get URL, title and small intro for each article
@@ -153,26 +151,23 @@ function initMap() {
                   //append to the document as an element of an unorder list
                   var HTMLElement = '<li><a href="' + link + '" target="_blank">' + title + '</a></li>'; 
                   content += HTMLElement;
-                  infowindow.setContent(content);
-              })
+                  //infowindow.setContent(content);
+                })
+                content += '</ul>';
               } else {
                 content += "<div>No New York Times articles for " + marker.title.toUpperCase() + "</div>";
-                infowindow.setContent(content);
+                //infowindow.setContent(content);
               }
-              infowindow.setContent(content);
             })
             .fail(function(){
               content += "<div>New York Times articles could not be loaded</div>";
-              infowindow.setContent(content);
+              //infowindow.setContent(content);
             })
-
-          }
-
-          // Use streetview service to get the closest streetview image within
-          // 50 meters of the markers position
-          streetViewService.getPanoramaByLocation(marker.position, radius, getContentForInfowindow);
-
-          
+            .done(function(){
+              // Use streetview service to get the closest streetview image within
+              // 50 meters of the markers position
+              streetViewService.getPanoramaByLocation(marker.position, radius, getContentForInfowindow);
+            })
           // Open the infowindow on the correct marker.
           infowindow.open(map, marker);
         }

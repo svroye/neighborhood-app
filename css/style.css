@@ -2,10 +2,6 @@
 	list-style-type: none;
 }
 
-.list-item-place :hover{
-
-}
-
 .place-name {
 	margin-bottom: 0;
 }
@@ -63,10 +59,12 @@ hr {
 
 .infowindow-title {
 	font-size: 150%;
+	font-weight: bold;
 }
 
 .NYT-title {
 	font-size: 130%;
+	margin-top: 5px;
 }
 
 .options-box {
@@ -86,7 +84,7 @@ hr {
 	width: 200px;
 	height: 200px;
 }
-#wiki-content{
+.wiki-content{
 	width: 200px;
 	height: 200px;
 }

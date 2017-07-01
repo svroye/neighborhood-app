@@ -67,7 +67,9 @@ function AppViewModel() {
   //create array for the place items
   this.placesList = ko.observableArray();
   //create variables for making an infoWindow for the markers and for the bounds of the map
-  var largeInfowindow = new google.maps.InfoWindow();
+  var largeInfowindow = new google.maps.InfoWindow({
+    maxWidth: 300
+  });
   var bounds = new google.maps.LatLngBounds();
 
   // loop through the places, make a marker for each of them, extend the bounds of the map to
