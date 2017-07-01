@@ -61,14 +61,6 @@ var importantPlaces = [
 }
 ];
 
-var Place = function(data){
-  this.name = data.name;
-  this.address = data.address;
-  this.location = data.location;
-  this.marker = data.marker;
-  this.showItem = data.showItem;
-};
-
 function AppViewModel() {
 
   var self = this;
@@ -82,7 +74,6 @@ function AppViewModel() {
   // include the place, add a listener for the marker to fill it when clicked
   // Also create a knockout observable for each place and add it to the array defined above 
   importantPlaces.forEach(function(item,number){
-
     //create the marker
     var marker = new google.maps.Marker({
       position: item.location,
@@ -158,8 +149,4 @@ function AppViewModel() {
     populateInfoWindow(item.marker,largeInfowindow);
   }
 
-}
-
-document.onerror = function() {
-  alert('Problem with loading the script. Please check your connetivity and try again later.')
 }

@@ -61,6 +61,10 @@ hr {
 	right: 0px;
 }
 
+.infowindow-title {
+	font-size: 150%;
+}
+
 .options-box {
 	background: #fff;
 	border: 1px solid #999;
@@ -75,6 +79,10 @@ hr {
 }
 
 #pano {
+	width: 200px;
+	height: 200px;
+}
+#wiki-content{
 	width: 200px;
 	height: 200px;
 }
