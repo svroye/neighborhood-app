@@ -103,6 +103,8 @@ function initMap() {
           var radius = 50;
           var content = '';
           var currentContent ='';
+          var panoramaOptions;
+          var panorama;
           // In case the status is OK, which means the pano was found, compute the
           // position of the streetview image, then calculate the heading, then get a
           // panorama from that and set the options
@@ -112,7 +114,7 @@ function initMap() {
               var heading = google.maps.geometry.spherical.computeHeading(
                 nearStreetViewLocation, marker.position);
               content += '<div class="infowindow-title">' + marker.title + '</div><div id="pano"></div>';
-              var panoramaOptions = {
+              panoramaOptions = {
                 position: nearStreetViewLocation,
                 pov: {
                   heading: heading,
@@ -120,56 +122,58 @@ function initMap() {
                 }
               };
               infowindow.setContent(content);
-              var panorama = new google.maps.StreetViewPanorama(
+              panorama = new google.maps.StreetViewPanorama(
                 document.getElementById('pano'), panoramaOptions);
             } else {
-              infowindow.setContent('<div class="infowindow-title">' + marker.title + '</div>' +
-                '<div>No Street View Found</div>');
-            }
-          }
-
-          var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-          var queryData = {
-            'q' : marker.title,
-            'api-key' : NYTApiKey
-          };
-
-          //get response from NYT
-          $.getJSON( url, queryData, function(data) {
-            //infowindow.setContent(content);
-            //get articles
-            var responseDoc = data.response.docs;
-            console.log(responseDoc)
-            //loop through the articles
-            if(responseDoc.length !== 0){
-              content += "<div>New York Times articles about " + marker.title.toUpperCase() + ': </div><ul>';
-              responseDoc.forEach(function(currentValue){
-                //get URL, title and small intro for each article
-                var link = currentValue.web_url;
-                var title = currentValue.headline.main;
-                var abstract = currentValue.snippet;
-                //append to the document as an element of an unorder list
-                var HTMLElement = '<li><a href="' + link + '" target="_blank">' + title + '</a></li>'; 
-                content += HTMLElement;
-                infowindow.setContent(content);
-              })
-            } else {
-              content += "<div>No New York Times articles for " + marker.title.toUpperCase() + "</div>";
+              content +='<div class="infowindow-title">' + marker.title + '</div>' +
+                '<div>No Street View Found</div>'
               infowindow.setContent(content);
             }
-            infowindow.setContent(content);
-          })
-          .fail(function(){
-            content += "<div>New York Times articles could not be loaded</div>";
-            infowindow.setContent(content);
-          })
+
+            var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+            var queryData = {
+              'q' : marker.title,
+              'api-key' : NYTApiKey
+            };
+
+            //get response from NYT
+            $.getJSON( url, queryData, function(data) {
+              //get articles
+              var responseDoc = data.response.docs;
+              console.log(responseDoc)
+              //loop through the articles
+              if(responseDoc.length !== 0){
+                console.log("uuuuuuuuuuuuuuuuuu");
+                content += "<div class='NYT-title'>New York Times articles about " + marker.title.toUpperCase() + ': </div><ul>';
+                responseDoc.forEach(function(currentValue){
+                  //get URL, title and small intro for each article
+                  var link = currentValue.web_url;
+                  var title = currentValue.headline.main;
+                  var abstract = currentValue.snippet;
+                  //append to the document as an element of an unorder list
+                  var HTMLElement = '<li><a href="' + link + '" target="_blank">' + title + '</a></li>'; 
+                  content += HTMLElement;
+                  infowindow.setContent(content);
+              })
+              } else {
+                content += "<div>No New York Times articles for " + marker.title.toUpperCase() + "</div>";
+                infowindow.setContent(content);
+              }
+              infowindow.setContent(content);
+            })
+            .fail(function(){
+              content += "<div>New York Times articles could not be loaded</div>";
+              infowindow.setContent(content);
+            })
+
+          }
 
           // Use streetview service to get the closest streetview image within
           // 50 meters of the markers position
           streetViewService.getPanoramaByLocation(marker.position, radius, getContentForInfowindow);
+
           
           // Open the infowindow on the correct marker.
           infowindow.open(map, marker);
-
         }
       }
