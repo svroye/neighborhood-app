@@ -91,6 +91,8 @@ function AppViewModel() {
     bounds.extend(marker.position);
 
     // add clicklistener for filling and opening the infowindow 
+    // the animation for the markers is taken from the Google Maps API documentation
+    // https://developers.google.com/maps/documentation/javascript/examples/marker-animations
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
       self.markers().forEach(function(item){
@@ -153,6 +155,8 @@ function AppViewModel() {
   }
   
   // called when a list item is clicked
+  // the animation for the markers is taken from the Google Maps API documentation
+    // https://developers.google.com/maps/documentation/javascript/examples/marker-animations
   this.openMarker = function(item){
     populateInfoWindow(item.marker,largeInfowindow);
     self.markers().forEach(function(elem){
