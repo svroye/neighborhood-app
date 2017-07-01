@@ -66,6 +66,8 @@ function AppViewModel() {
   var self = this;
   //create array for the place items
   this.placesList = ko.observableArray();
+
+  this.markers = ko.observableArray();
   //create variables for making an infoWindow for the markers and for the bounds of the map
   var largeInfowindow = new google.maps.InfoWindow({
     maxWidth: 300
@@ -84,13 +86,17 @@ function AppViewModel() {
       id: number,
       map: map
     });
-
+    self.markers.push(marker);
     // extend the boundaries of the map
     bounds.extend(marker.position);
 
     // add clicklistener for filling and opening the infowindow 
     marker.addListener('click', function() {
       populateInfoWindow(this, largeInfowindow);
+      self.markers().forEach(function(item){
+        item.setAnimation(null);
+      })
+      this.setAnimation(google.maps.Animation.BOUNCE);
     });
 
     // create a new variable for the places
@@ -149,6 +155,10 @@ function AppViewModel() {
   // called when a list item is clicked
   this.openMarker = function(item){
     populateInfoWindow(item.marker,largeInfowindow);
+    self.markers().forEach(function(elem){
+        elem.setAnimation(null);
+      })
+      item.marker.setAnimation(google.maps.Animation.BOUNCE);
   }
 
 }
