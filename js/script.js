@@ -97,7 +97,7 @@ function AppViewModel() {
       populateInfoWindow(this, largeInfowindow);
       self.markers().forEach(function(item){
         item.setAnimation(null);
-      });
+      })
       this.setAnimation(google.maps.Animation.BOUNCE);
     });
 
@@ -111,15 +111,15 @@ function AppViewModel() {
     });
 
     // add the variable to the array
-    self.placesList.push(self.newItem);
-  });
+    self.placesList.push(self.newItem)
+  })
 
   // variable for the input value in the filterbox
   this.placeName = ko.observable("");
 
 
   // called whenever the user types something in the filter box
-  this.updateList = function() {
+  this.updateList = ko.computed( function() {
     //takes current value in the filter box
     var currentValue = self.placeName().toLowerCase();
     // loop through the different placesin the array
@@ -140,7 +140,7 @@ function AppViewModel() {
           location: currentLocation,
           marker: currentMarker,
           showItem: false
-        });
+        })
         currentMarker.setMap(null);
       } else {
         currentElement({
@@ -149,11 +149,11 @@ function AppViewModel() {
           location: currentLocation,
           marker: currentMarker,
           showItem: true
-        });
+        })
         currentMarker.setMap(map);
       }
     }
-  };
+  });
   
   // called when a list item is clicked
   // the animation for the markers is taken from the Google Maps API documentation
@@ -162,8 +162,8 @@ function AppViewModel() {
     populateInfoWindow(item.marker,largeInfowindow);
     self.markers().forEach(function(elem){
         elem.setAnimation(null);
-      });
+      })
       item.marker.setAnimation(google.maps.Animation.BOUNCE);
-  };
+  }
 
 }

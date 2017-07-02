@@ -9,7 +9,7 @@
 <body>
   <div class="container">
     <aside class="options-box">
-      <input id="search-place-text" type="text" placeholder="Search. Ex: Gravensteen" data-bind="textInput: placeName, event: {input : updateList}">
+      <input id="search-place-text" type="text" placeholder="Search. Ex: Gravensteen" data-bind="textInput: placeName">
       <ul data-bind="foreach: placesList" class="list-places">
         <li class="list-item" data-bind="click: $parent.openMarker, visible: showItem">
           <div class="list-item-place">
