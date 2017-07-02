@@ -174,6 +174,6 @@ function populateInfoWindow(marker, infowindow) {
     }
 }
 
-function errorForMaps(){
-  alert('Google Maps could not be loaded. Please try again later.');
+function error() {
+  alert('Could not load Google Maps. Please try again later.')
 }
