@@ -1,8 +1,4 @@
-var map,
-    google,
-    $,
-    ko,
-    AppViewModel;
+var map;
 var NYTApiKey = "8c50570480a84e43953e42c4c556b6dd";
 
 function initMap() {
