@@ -2,11 +2,13 @@
 <html>
 <head>
   <title>Neighborhood Map</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
 </head>
 <body>
   <div class="container">
-    <div class="options-box">
+    <aside class="options-box">
       <input id="search-place-text" type="text" placeholder="Search. Ex: Gravensteen" data-bind="textInput: placeName, event: {input : updateList}">
       <ul data-bind="foreach: placesList" class="list-places">
         <li class="list-item" data-bind="click: $parent.openMarker, visible: showItem">
@@ -20,8 +22,8 @@
       <p id="disclaimer">
         All info shown on this site is taken from Google Maps API, Google StreetView API and NYT API.
       </p>
-    </div>
-    <div id="map"></div>
+    </aside>
+    <main id="map"></main>
   </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
