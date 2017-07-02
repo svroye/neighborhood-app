@@ -173,3 +173,7 @@ function populateInfoWindow(marker, infowindow) {
         infowindow.open(map, marker);
     }
 }
+
+function errorForMaps(){
+  alert('Google Maps could not be loaded. Please try again later.');
+}
