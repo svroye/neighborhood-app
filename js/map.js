@@ -164,7 +164,7 @@ function populateInfoWindow(marker, infowindow) {
             .fail(function () {
                 content += "<div>New York Times articles could not be loaded</div>";
             })
-            .done(function () {
+            .always(function () {
                 // Use streetview service to get the closest streetview image within
                 // 50 meters of the markers position
                 streetViewService.getPanoramaByLocation(marker.position, radius, getContentForInfowindow);

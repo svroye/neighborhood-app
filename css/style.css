@@ -10,7 +10,11 @@
 	margin-top: 0;
 }
 
-h3, p {
+h3 {
+	word-break: break-all;
+}
+
+p {
 	word-break: break-all;
 }
 
