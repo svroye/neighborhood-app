@@ -1,6 +1,5 @@
 var map,
     google,
-    document,
     $,
     ko,
     AppViewModel;
@@ -91,27 +90,7 @@ function initMap() {
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 function populateInfoWindow(marker, infowindow) {
-  // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker !== marker) {
-        // Clear the infowindow content to give the streetview time to load.
-        infowindow.setContent('');
-        infowindow.marker = marker;
-        // Make sure the marker property is cleared if the infowindow is closed.
-        infowindow.addListener('closeclick', function () {
-            infowindow.marker = null;
-        });
-        var streetViewService = new google.maps.StreetViewService(),
-            radius = 50,
-            content = '',
-            currentContent = '',
-            panoramaOptions,
-
-            url = "https://api.nytimes.com/svc/search/v2/articlesearch.json",
-            queryData = {
-                'q' : marker.title,
-                'api-key' : NYTApiKey
-            };
-          // In case the status is OK, which means the pano was found, compute the
+     // In case the status is OK, which means the pano was found, compute the
           // position of the streetview image, then calculate the heading, then get a
           // panorama from that and set the options
         function getContentForInfowindow(data, status) {
@@ -142,6 +121,27 @@ function populateInfoWindow(marker, infowindow) {
             }
 
         }
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker !== marker) {
+        // Clear the infowindow content to give the streetview time to load.
+        infowindow.setContent('');
+        infowindow.marker = marker;
+        // Make sure the marker property is cleared if the infowindow is closed.
+        infowindow.addListener('closeclick', function () {
+            infowindow.marker = null;
+        });
+        var streetViewService = new google.maps.StreetViewService(),
+            radius = 50,
+            content = '',
+            currentContent = '',
+            panoramaOptions,
+
+            url = "https://api.nytimes.com/svc/search/v2/articlesearch.json",
+            queryData = {
+                'q' : marker.title,
+                'api-key' : NYTApiKey
+            };
+       
 
         //get response from NYT
         $.getJSON(url, queryData, function (data) {
