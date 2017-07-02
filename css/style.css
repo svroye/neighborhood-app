@@ -1,5 +1,6 @@
 .list-places {
 	list-style-type: none;
+	padding: 0;
 }
 
 .place-name {
@@ -122,4 +123,26 @@ hr {
 #disclaimer {
 	font-size: 50%;
 	word-break: normal;
+}
+
+
+@media screen and (max-width: 970px) {
+   .place-name {
+		font-size: 80%;
+	}
+
+	.place-address {
+		font-size: 60%;
+	}
+}
+
+
+@media screen and (max-width: 670px) {
+   .place-name {
+		font-size: 60%;
+	}
+
+	.place-address {
+		font-size: 40%;
+	}
 }
